@@ -85,5 +85,33 @@ namespace STV_Services.Controllers
             }
             //return View();
         }
+
+
+        //[HttpPost]
+        public ActionResult Delete(int? id)
+        {
+
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            MySqlConnection con = new MySqlConnection(constr);
+
+            try
+            {
+                con.Open();
+                string query = "call delete_report(" + id + ");";
+
+                MySqlCommand cmd = new MySqlCommand(query, con);
+                cmd.ExecuteNonQuery();
+                TempData["Success"] = "Report has been deleted Successfully!";
+                con.Close();
+
+                return RedirectToAction("Reports","Report");
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+
+
+        }
     }
 }
