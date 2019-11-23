@@ -18,8 +18,13 @@ namespace STV.Controllers
         //Display all the available shows on the database
         public ActionResult Shows()
         {
+            
+            string user = (string)Session["User"];
 
             List<Shows> shows = new List<Shows>();
+
+            //List of favorite shows
+            List<string> favorites = new List<string>();
 
             //setting variable to connection string
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
@@ -27,21 +32,47 @@ namespace STV.Controllers
             {
                 con.Open();
 
-                //Query the database for all the available shows
-                string query = "select * from shows;";
- 
+                string query = "select * from FavList where username = '" + user + "'; ";
+
                 MySqlCommand cmd = new MySqlCommand(query, con);
+                using (MySqlDataReader sdr = cmd.ExecuteReader())
+                {
+
+                    while (sdr.Read())
+                    {
+                        string show_name = sdr.GetString(2);
+
+                        favorites.Add(show_name);
+
+                    }
+
+                }
+
+                //Query the database for all the available shows
+                query = "select * from shows;";
+ 
+                cmd = new MySqlCommand(query, con);
                 using (MySqlDataReader sdr = cmd.ExecuteReader())
                 {
                     
                     while (sdr.Read())
                     {
                         Shows show = new Shows();
+
+                        show.Favorite = false;
                         show.ShowName = sdr.GetString(0);
                         show.ChannelName = sdr.GetString(1);
                         show.Description = sdr.GetString(2);
                         show.DateOfRelease = sdr.GetDateTime(3);
 
+                        for (int i =0; i < favorites.Count(); i++)
+                        {
+                            if (show.ShowName == favorites[i])
+                            {
+                                show.Favorite = true;
+                            }
+                      
+                        }
 
                         shows.Add(show);
 
@@ -93,6 +124,7 @@ namespace STV.Controllers
         //Display the details of the selected show
         public ActionResult Details(string id)
         {
+            
             Shows show = new Shows();
             show.show_service = new List<Shows>();
             string text = id;
@@ -145,7 +177,60 @@ namespace STV.Controllers
            
         }
 
-        
+        //Add a show to the User's favorite list
+        public ActionResult Fav(string show)
+        {
+            
+            string user = (string)Session["User"];
+
+            if(user != null)
+            {
+                //setting variable to connection string
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (MySqlConnection con = new MySqlConnection(constr))
+                {
+                    con.Open();
+
+                    string query = "Insert Into FavList(username, Showname) values('" + user + "' , '" + show + "'); ";
+
+                    MySqlCommand cmd = new MySqlCommand(query, con);
+                    cmd.ExecuteReader();
+
+                }
+                
+            }
+
+            return RedirectToAction("Shows");
+            
+            
+        }
+
+        //Remove a show from the User's favorite list
+        public ActionResult UnFav(string show)
+        {
+
+            string user = (string)Session["User"];
+
+            if(user != null)
+            {
+                //setting variable to connection string
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (MySqlConnection con = new MySqlConnection(constr))
+                {
+                    con.Open();
+
+                    string query = "Delete From FavList Where username = '" + user + "' AND ShowName = '" + show + "' ; ";
+
+                    MySqlCommand cmd = new MySqlCommand(query, con);
+                    cmd.ExecuteReader();
+
+                }
+            }
+
+            return RedirectToAction("Shows");
+        }
+
+
 
     }
 }

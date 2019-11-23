@@ -10,6 +10,7 @@ using MySql.Data.MySqlClient;
 
 public class AccountController : Controller
 {
+   
     // GET: Account, Login Screen
     [HttpGet]
     public ActionResult Login()
@@ -22,6 +23,9 @@ public class AccountController : Controller
     public ActionResult Verify(Account acc)
     {
         List<Account> account = new List<Account>();
+
+        Session["User"] = acc.Name;
+
         string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString; //setting variable to connection string
         using (MySqlConnection con = new MySqlConnection(constr))
         {
@@ -35,7 +39,9 @@ public class AccountController : Controller
                     if (sdr.Read()) //if input is within table, login succesful 
                     {
                         con.Close();
-                        return View("Create");
+
+                        //return View("Create");
+                        return RedirectToAction("Index","Home");
                     }
                     else
                     {
@@ -47,4 +53,7 @@ public class AccountController : Controller
             }
         }
     }
+
+
+
 }

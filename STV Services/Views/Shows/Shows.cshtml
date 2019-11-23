@@ -62,12 +62,25 @@
 
                 <td>
                     @Html.ActionLink("Details", "Details", new { id = item.ShowName }) |
-                    <button class ="btn-link glyphicon glyphicon-heart-empty" onclick="Fav()"></button>
+
+                    @if (item.Favorite)
+                    {
+                    <button class="btn-link glyphicon glyphicon-heart" onclick="location.href='@Url.Action("UnFav", "Shows", new { show = item.ShowName })'"></button>
+                    }
+                    else
+                    {
+                    <button class="btn-link glyphicon glyphicon-heart-empty" onclick="location.href='@Url.Action("Fav", "Shows", new { show = item.ShowName })'"></button>
+                    }
+
+
                 </td>
             </tr>
+
+            
         }
 
     }
 
 
 </table>
+

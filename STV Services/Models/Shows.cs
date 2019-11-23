@@ -28,7 +28,7 @@ namespace STV.Models
 
         public List<Shows> show_service { get; set; }
 
-
+        public bool Favorite { get; set; }
 
     }
 }
