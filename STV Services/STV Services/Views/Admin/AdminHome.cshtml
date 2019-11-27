@@ -60,21 +60,20 @@
         <br>
         <br>
 
-        <table>
+        <table class="table table-responsive-sm table-hover">
             @foreach (var item in Model.streamingSrevice)
             {
-                <break>
+                
                     <tr>
-                        <td style="width:10%">
-                            @Html.DisplayFor(modelItem => item.ServiceName)
+                        <td style="width:100px; height:100px">
+                            <b> @Html.DisplayFor(modelItem => item.ServiceName) </b>
                         </td>
-                        <break></break>
                         <td style="width:40%">
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
                     </tr>
-                </break>
-            }
+
+             }
         </table>
     </div>
 
