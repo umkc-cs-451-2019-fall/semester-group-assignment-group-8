@@ -18,8 +18,10 @@ namespace STV_Services.Models
         public string Firstname { set; get; }
 
         public string Lastname { set; get; }
-        
+
         public string Email { set; get; }
+
+        public char Permission { set; get; }
 
         public string DateOfBirth { set; get; }
 

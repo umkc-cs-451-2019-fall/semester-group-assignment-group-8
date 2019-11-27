@@ -1,0 +1,46 @@
+﻿@model STV_Services.Models.AdminViewModel
+
+@{
+    ViewBag.Title = "Admin Home";
+}
+
+<h2>AdminHome</h2>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            Streaming Services
+            <table>
+            @foreach (var item in Model.streamingSrevice)
+            {
+                <tr>
+                    <td style="width:10%">
+                        @Html.DisplayFor(modelItem => item.ServiceName)
+                    </td>
+                    <td style="width:40%">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                </tr>
+            }
+            </table>
+         </div>        
+        <div class="col-md-4">
+            Administrator
+            <br>
+            Username:  @Html.DisplayFor(modelItem => Model.admin.Username)
+            <br>
+            Date Of Birth:  @Convert.ToDateTime(Model.admin.DateOfBirth).ToString("dd/MM/yyyy")
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-4">
+               
+            </div>            
+            <div class="col-md-4">
+                here the buttons will be!
+            </div>
+        </div>
+    </div>
+</div>
