@@ -3,9 +3,9 @@ using STV_Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using System.Linq;
 
 namespace STV_Services.Controllers
 {
@@ -18,7 +18,6 @@ namespace STV_Services.Controllers
             Report report = new Report();
             return View(report);
         }
-
 
         [HttpPost]
         public ActionResult Report(Report newReport)
@@ -46,11 +45,12 @@ namespace STV_Services.Controllers
             }
         }
 
-        public ActionResult Reports()
+        public ActionResult Reports(int? page)
         {
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             MySqlConnection con = new MySqlConnection(constr);
             List<Report> reports = new List<Report>();
+            IPagedList<Report> rports = null ;
 
             try
             {
@@ -77,7 +77,11 @@ namespace STV_Services.Controllers
                     }
                 }
                 con.Close();
-                return View(reports);
+
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                rports = reports.ToPagedList(pageNumber, pageSize);
+                return View(rports);
             }
             catch (Exception exception)
             {
@@ -86,8 +90,6 @@ namespace STV_Services.Controllers
             //return View();
         }
 
-
-        //[HttpPost]
         public ActionResult Delete(int? id)
         {
 

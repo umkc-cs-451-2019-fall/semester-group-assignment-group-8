@@ -159,3 +159,7 @@ C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\
 C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\obj\Debug\STV Services.csproj.CopyComplete
 C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\obj\Debug\STV Services.dll
 C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\obj\Debug\STV Services.pdb
+C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\bin\PagedList.dll
+C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\bin\PagedList.Mvc.dll
+C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\bin\PagedList.xml
+C:\Users\mazin\Desktop\workspace\semester-group-assignment-group-8\STV Services\STV Services\bin\PagedList.Mvc.xml

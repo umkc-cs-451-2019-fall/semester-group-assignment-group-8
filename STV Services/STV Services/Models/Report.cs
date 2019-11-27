@@ -23,6 +23,6 @@ namespace STV_Services.Models
 
     public enum ReportType
     {
-        problem, feedback
+        Problem, Feedback
     }
 }

@@ -25,7 +25,7 @@ namespace STV_Services.Controllers
         public ActionResult Register(Register user)
         {
 
-
+            TempData["Success"] = null;
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
             MySqlConnection con = new MySqlConnection(constr);
 
