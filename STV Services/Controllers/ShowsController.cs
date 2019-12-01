@@ -79,6 +79,9 @@ namespace STV.Controllers
                     }
 
                 }
+
+                Session["Current_List"] = shows;
+
                 con.Close();
                 return View(shows);
             }
@@ -89,8 +92,15 @@ namespace STV.Controllers
         //Search the list of shows using the search input
         public ActionResult Search(string searchString)
         {
+            string user = (string)Session["User"];
+
+
             List<Shows> shows_search = new List<Shows>();
             string text = searchString;
+
+            //List of favorite shows
+            List<string> favorites = new List<string>();
+
 
             string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString; //setting variable to connection string
 
@@ -98,22 +108,51 @@ namespace STV.Controllers
             {
                 con.Open();
 
-                //Query the database for shows where the name is similar to the search input
-                string query = "select * from shows where ShowName like'%" + text + "%';";
+                string query = "select * from FavList where username = '" + user + "'; ";
+
                 MySqlCommand cmd = new MySqlCommand(query, con);
+                using (MySqlDataReader sdr = cmd.ExecuteReader())
+                {
+
+                    while (sdr.Read())
+                    {
+                        string show_name = sdr.GetString(2);
+
+                        favorites.Add(show_name);
+
+                    }
+
+                }
+
+                //Query the database for shows where the name is similar to the search input
+                query = "select * from shows where ShowName like'%" + text + "%';";
+                cmd = new MySqlCommand(query, con);
                 using (MySqlDataReader sdr = cmd.ExecuteReader())
                 {
                     while (sdr.Read())
                     {
                         Shows show = new Shows();
+
+                        show.Favorite = false;
                         show.ShowName = sdr.GetString(0);
                         show.ChannelName = sdr.GetString(1);
                         show.Description = sdr.GetString(2);
                         show.DateOfRelease = sdr.GetDateTime(3);
 
+                        for (int i = 0; i < favorites.Count(); i++)
+                        {
+                            if (show.ShowName == favorites[i])
+                            {
+                                show.Favorite = true;
+                            }
+
+                        }
+
                         shows_search.Add(show);
                     }
                 }
+
+                Session["Current_List"] = shows_search;
 
                 con.Close();
                 return View("Shows",shows_search);
@@ -180,10 +219,10 @@ namespace STV.Controllers
         //Add a show to the User's favorite list
         public ActionResult Fav(string show)
         {
-            
             string user = (string)Session["User"];
+            List<Shows> current_list = (List<Shows>)Session["Current_List"];
 
-            if(user != null)
+            if (user != null)
             {
                 //setting variable to connection string
                 string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
@@ -197,10 +236,18 @@ namespace STV.Controllers
                     cmd.ExecuteReader();
 
                 }
+
+                for (int i=0;i < current_list.Count();i++)
+                {
+                    if(show == current_list[i].ShowName)
+                    {
+                        current_list[i].Favorite = true;
+                    }
+                }
                 
             }
 
-            return RedirectToAction("Shows");
+            return View("Shows", current_list);
             
             
         }
@@ -210,8 +257,9 @@ namespace STV.Controllers
         {
 
             string user = (string)Session["User"];
+            List<Shows> current_list = (List<Shows>)Session["Current_List"];
 
-            if(user != null)
+            if (user != null)
             {
                 //setting variable to connection string
                 string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
@@ -225,9 +273,17 @@ namespace STV.Controllers
                     cmd.ExecuteReader();
 
                 }
+
+                for (int i = 0; i < current_list.Count(); i++)
+                {
+                    if (show == current_list[i].ShowName)
+                    {
+                        current_list[i].Favorite = false;
+                    }
+                }
             }
 
-            return RedirectToAction("Shows");
+            return View("Shows", current_list);
         }
 
 
