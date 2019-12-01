@@ -155,5 +155,48 @@ namespace STV_Services.Models
                 con.Close();
             }
         }
+
+        public static List<Report> GetReports()
+        {
+            List<Report> reports = new List<Report>();
+            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            MySqlConnection con = new MySqlConnection(constr);
+            con.Open();
+            MySqlCommand cmd = new MySqlCommand("get_all_reports", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            using (MySqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Report report = new Report
+                    {
+                        ReportID = reader.GetInt32(0),
+                        Title = reader.GetString(1),
+                        Description = reader.GetString(2),
+                    };
+                    string val = reader.GetString(3);
+                    var type = (ReportType)Enum.Parse(typeof(ReportType), val);
+                    report.Type = type;
+                    reports.Add(report);
+                }
+            }
+            con.Close();
+
+        return reports;
+        }
+
+        public static void DeleteReport(int? id)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("delete_report", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@reportID", id);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 }
