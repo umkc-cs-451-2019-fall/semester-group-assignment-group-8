@@ -15,5 +15,30 @@ namespace STV_Services.Controllers
 
             return View(adminViewModel);
         }
+
+
+        public ActionResult CreateStreamingService()
+        {
+            StreamingSrevice srevice = new StreamingSrevice();
+            return View(srevice);
+        }
+
+        [HttpPost]
+        public ActionResult CreateStreamingService(StreamingSrevice stream)
+        {
+            TempData["Danger"] = null;
+            StreamingSrevice newStreamingSrevice = new StreamingSrevice();
+            if (DataAccess.isStreamExist(stream.ServiceName) == false)
+            {
+                DataAccess.CreateStreamingService(stream);
+
+            }
+            else
+            {
+                TempData["Danger"] = "Streaming Service is already existed!";
+
+            }
+            return RedirectToAction("AdminHome","Admin");
+        }
     }
 }

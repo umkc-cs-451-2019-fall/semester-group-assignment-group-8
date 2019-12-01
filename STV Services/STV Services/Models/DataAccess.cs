@@ -61,5 +61,84 @@ namespace STV_Services.Models
             }
             return StreamingServices;
         }
+
+        public static bool isStreamExist(string srevice)
+        {
+            bool isExist = false;
+
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("get_StreamingServiceInfo", con);
+                cmd.Parameters.AddWithValue("@ss", srevice);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+
+                    isExist = true;
+                }
+                con.Close();
+            }
+            return isExist ;
+        }
+
+        public static void CreateStreamingService(StreamingSrevice srevice)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_StreamingService", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@servicename", srevice.ServiceName);
+                cmd.Parameters.AddWithValue("@descr", srevice.Description);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static bool isUserExist(string username)
+        {
+            bool isExist = false;
+
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("get_UserInfo", con);
+                cmd.Parameters.AddWithValue("@user_name", username);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    isExist = true;
+                }
+                con.Close();
+            }
+            return isExist;
+        }
+
+        public static void CreateNewAccount(Register newUser)
+        {
+            
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_new_user", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usrnm", newUser.Username);
+                cmd.Parameters.AddWithValue("@Fname", newUser.Firstname);
+                cmd.Parameters.AddWithValue("@Lname", newUser.Lastname);
+                cmd.Parameters.AddWithValue("@email", newUser.Email);
+                cmd.Parameters.AddWithValue("@password", newUser.Password);
+                cmd.Parameters.AddWithValue("@dob", newUser.DateOfBirth);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 }

@@ -25,26 +25,18 @@ namespace STV_Services.Controllers
         public ActionResult Register(Register user)
         {
 
-            TempData["Success"] = null;
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            MySqlConnection con = new MySqlConnection(constr);
-
-            try
+            if (DataAccess.isUserExist(user.Username) == false)
             {
-                con.Open();
-                string query = "call create_new_user('" + user.Username + "','" + user.Firstname + "','" + user.Lastname + "','" + user.Email + "','" + user.Password + "','" + user.DateOfBirth + "');";
-
-                MySqlCommand cmd = new MySqlCommand(query, con);
-                cmd.ExecuteNonQuery();
-                TempData["Success"] = "Added Successfully!";
-                return View();
+                DataAccess.CreateNewAccount(user);
+                return RedirectToAction("Index","Home");
             }
-            catch (Exception exception)
+            else
             {
-                throw exception;
+                ModelState.AddModelError("Username", "this username is already exists. Please enter a different username.");
+
             }
 
-            //return View();
+            return View(user);  
         }
     }
 }

@@ -10,7 +10,6 @@ namespace STV_Services.Models
     public class User
     {
 
-
         public string Username { set; get; }
 
         public string Password { set; get; }
