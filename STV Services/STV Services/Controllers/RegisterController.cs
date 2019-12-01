@@ -20,12 +20,11 @@ namespace STV_Services.Controllers
         }
 
 
-
         [HttpPost]
         public ActionResult Register(Register user)
         {
 
-            if (DataAccess.isUserExist(user.Username) == false)
+            if (DataAccess.IsUserExist(user.Username) == false)
             {
                 DataAccess.CreateNewAccount(user);
                 return RedirectToAction("Index","Home");

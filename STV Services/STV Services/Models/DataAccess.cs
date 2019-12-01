@@ -62,7 +62,7 @@ namespace STV_Services.Models
             return StreamingServices;
         }
 
-        public static bool isStreamExist(string srevice)
+        public static bool IsStreamExist(string srevice)
         {
             bool isExist = false;
 
@@ -99,7 +99,7 @@ namespace STV_Services.Models
             }
         }
 
-        public static bool isUserExist(string username)
+        public static bool IsUserExist(string username)
         {
             bool isExist = false;
 
@@ -135,6 +135,21 @@ namespace STV_Services.Models
                 cmd.Parameters.AddWithValue("@password", newUser.Password);
                 cmd.Parameters.AddWithValue("@dob", newUser.DateOfBirth);
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static void CreateReport(Report report)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_new_report", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ttl", report.Title);
+                cmd.Parameters.AddWithValue("@descr", report.Description);
+                cmd.Parameters.AddWithValue("@type", report.Type.ToString());
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();

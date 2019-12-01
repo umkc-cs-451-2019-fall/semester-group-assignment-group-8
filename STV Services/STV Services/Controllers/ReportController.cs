@@ -12,7 +12,7 @@ namespace STV_Services.Controllers
     public class ReportController : Controller
     {
         // GET: Report
-        public ActionResult Report()
+        public ActionResult CreateReport()
         {
 
             Report report = new Report();
@@ -20,29 +20,13 @@ namespace STV_Services.Controllers
         }
 
         [HttpPost]
-        public ActionResult Report(Report newReport)
+        public ActionResult CreateReport(Report newReport)
         {
 
+            DataAccess.CreateReport(newReport);
 
-            string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            MySqlConnection con = new MySqlConnection(constr);
-
-            try
-            {
-                con.Open();
-                string query = "call create_new_report('" + newReport.Title + "','" + newReport.Description + "','" + newReport.Type + "');";
-
-                MySqlCommand cmd = new MySqlCommand(query, con);
-                cmd.ExecuteNonQuery();
-                TempData["Success"] = "Report has been submitted Successfully!";
-                con.Close();
-
-                return View();
-            }
-            catch (Exception exception)
-            {
-                throw exception;
-            }
+            return RedirectToAction("Index","Home");
+ 
         }
 
         public ActionResult Reports(int? page)
@@ -69,8 +53,8 @@ namespace STV_Services.Controllers
                         report.Title = reader.GetString(1);
                         report.Description = reader.GetString(2);
                         string val = reader.GetString(3);
-                        var employee = (ReportType)Enum.Parse(typeof(ReportType), val);
-                        report.Type = employee;
+                        var type = (ReportType)Enum.Parse(typeof(ReportType), val);
+                        report.Type = type;
 
                         reports.Add(report);
 

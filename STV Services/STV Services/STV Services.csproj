@@ -182,7 +182,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Register\Register.cshtml" />
-    <Content Include="Views\Report\Report.cshtml" />
+    <Content Include="Views\Report\CreateReport.cshtml" />
     <Content Include="Views\Report\Reports.cshtml" />
     <Content Include="Views\Admin\AdminHome.cshtml" />
     <Content Include="Views\Admin\CreateStreamingService.cshtml" />

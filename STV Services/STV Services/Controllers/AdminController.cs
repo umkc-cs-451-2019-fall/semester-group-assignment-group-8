@@ -28,7 +28,7 @@ namespace STV_Services.Controllers
         {
             TempData["Danger"] = null;
             StreamingSrevice newStreamingSrevice = new StreamingSrevice();
-            if (DataAccess.isStreamExist(stream.ServiceName) == false)
+            if (DataAccess.IsStreamExist(stream.ServiceName) == false)
             {
                 DataAccess.CreateStreamingService(stream);
 
