@@ -65,5 +65,31 @@ namespace STV_Services.Controllers
 
             return RedirectToAction("AdminHome", "Admin");
         }
+
+        public ActionResult CreateChannel()
+        {
+            Channel channel = new Channel();
+            return View(channel);
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateChannel(Channel channel)
+        {
+            if (DataAccess.IsChannelExist(channel.ChannelName) == false)
+            {
+                DataAccess.CreateChannel(channel);
+                return RedirectToAction("AdminHome", "Admin");
+            }
+            else
+            {
+                ModelState.AddModelError("ChannelName", "This channel is already exists.");
+
+            }
+
+            return View(channel);
+
+        }
+
     }
 }

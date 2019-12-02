@@ -293,6 +293,7 @@ namespace STV_Services.Models
             using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
             {
 
+
                 MySqlCommand cmd = new MySqlCommand("get_packageInfo", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", PackageName);
@@ -308,6 +309,42 @@ namespace STV_Services.Models
                 con.Close();
             }
             return PackageID;
+        }
+
+        public static bool IsChannelExist(string channel_name)
+        {
+
+            bool isExist = false;
+
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("get_channel", con);
+                cmd.Parameters.AddWithValue("@name", channel_name);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    isExist = true;
+                }
+                con.Close();
+            }
+            return isExist;
+        }
+
+        public static void CreateChannel(Channel channel)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_channel", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@chnl_name", channel.ChannelName);
+                cmd.Parameters.AddWithValue("@dscrp", channel.Description);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
         }
     }
 }

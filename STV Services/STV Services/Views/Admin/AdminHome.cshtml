@@ -92,13 +92,16 @@
                     <b>Date Of Birth:</b>  @Convert.ToDateTime(Model.admin.DateOfBirth).ToString("dd/MM/yyyy")
                     <br>
                     <br>
-                    <button type="button" class="btn" onclick="location.href='@Url.Action(" Reports","Report")'">Reports List</button>
+                    <button type="button" class="btn" onclick="location.href='@Url.Action("Reports","Report")'">Reports List</button>
                     <br>
                     <br>
                     <button type="button" class="btn" onclick="location.href='@Url.Action("CreateStreamingService","Admin")'">Add Streaming Service</button>
                     <br>
                     <br>
                     <button type="button" class="btn" onclick="location.href='@Url.Action("CreatePackage","Admin")'">Add New Package</button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn" onclick="location.href='@Url.Action("CreateChannel","Admin")'">Add a Channel</button>
                 </td>
             </tr>
         </table>
