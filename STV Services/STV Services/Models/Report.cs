@@ -11,6 +11,7 @@ namespace STV_Services.Models
 
         public int ReportID { set; get; }
 
+        [StringLength(20)]
         [Required(ErrorMessage = "Title is required")]
         public string Title { set; get; }
 

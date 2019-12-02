@@ -1,4 +1,5 @@
 ﻿using STV_Services.Models;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace STV_Services.Controllers
@@ -39,6 +40,30 @@ namespace STV_Services.Controllers
 
             }
             return RedirectToAction("AdminHome","Admin");
+        }
+
+
+        public ActionResult CreatePackage()
+        {
+            PackageViewModel packageView = new PackageViewModel();
+            List<StreamingSrevice> streamingSrevices = DataAccess.GetStreamingSrevices();
+            packageView.services = DataAccess.getStreamingServices();
+            //st<Channel> channels = DataAccess.GetChannels();
+            packageView.Channels = DataAccess.GetChannels();
+ 
+            return View(packageView);
+        }
+
+        [HttpPost]
+        public ActionResult CreatePackage(PackageViewModel packageView)
+        {
+
+            DataAccess.CreateNewPackage(packageView);
+
+            /*for (ITempDataProvider in)
+            DataAccess.AddChannelToPackage(1, "Sling");*/
+
+            return RedirectToAction("AdminHome", "Admin");
         }
     }
 }

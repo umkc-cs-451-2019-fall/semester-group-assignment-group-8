@@ -135,7 +135,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\DataAccess.cs" />
+    <Compile Include="Models\PackageModel.cs" />
+    <Compile Include="Models\PackageViewModel.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\StreamingSrevice.cs" />
@@ -186,6 +189,7 @@
     <Content Include="Views\Report\Reports.cshtml" />
     <Content Include="Views\Admin\AdminHome.cshtml" />
     <Content Include="Views\Admin\CreateStreamingService.cshtml" />
+    <Content Include="Views\Admin\CreatePackage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -198,5 +198,116 @@ namespace STV_Services.Models
                 con.Close();
             }
         }
+
+        public static List<string> getStreamingServices()
+        {
+            List<string> services = new List<string>();
+
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("get_StreamingServices", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+
+                    services.Add(rdr["ServiceName"].ToString());
+                }
+                con.Close();
+            }
+                return services;
+        }
+
+        public static void CreateNewPackage(PackageViewModel package)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_NewPackage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@servicename", package.package.ServiceName);
+                cmd.Parameters.AddWithValue("@pkgname", package.package.PackageName);
+                cmd.Parameters.AddWithValue("@descr", package.package.Description);
+                cmd.Parameters.AddWithValue("@prc", package.package.Price);
+              
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+
+
+
+            foreach (Channel channel in package.Channels.ToList())
+            {
+                if (channel.Checked == true)
+                {
+                    DataAccess.AddChannelToPackage(DataAccess.getPackageID(package.package.PackageName),channel.ChannelName);
+                }
+            }
+        }
+
+        public static List<Channel> GetChannels()
+        {
+            List<Channel> channels = new List<Channel>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_channels", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Channel channel = new Channel();
+                    channel.ChannelName = rdr["ChannelName"].ToString();
+                    channel.Description = rdr["Description"].ToString();
+                    channel.Checked = false;
+                    channels.Add(channel);
+                }
+                con.Close();
+            }
+            return channels;
+        }
+
+        public static void AddChannelToPackage(int packageID, string channel)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("AddChannelToPackage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@pkgID", packageID);
+                cmd.Parameters.AddWithValue("@chnl", channel);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static int getPackageID(string PackageName)
+        {
+            int PackageID = 0;
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_packageInfo", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", PackageName);
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Channel channel = new Channel();
+                    PackageID = Convert.ToInt32(rdr["PackageID"]);
+                }
+                con.Close();
+            }
+            return PackageID;
+        }
     }
 }
