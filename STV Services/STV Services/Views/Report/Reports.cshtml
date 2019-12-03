@@ -1,0 +1,53 @@
+﻿@model IPagedList<STV_Services.Models.Report>
+
+@using PagedList.Mvc;
+@using PagedList
+
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>Reports</h2>
+
+<br>
+<br>
+
+<table class="table" style="max-width: 100%">
+    <tr>
+        <th style="width:10%">
+            @Html.DisplayNameFor(model => model.First().Title)
+        </th>
+        <th style="width:40%">
+            @Html.DisplayNameFor(model => model.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Type)
+        </th>
+        <th style="width:10%"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="width:10%">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td style="width:40%">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td style="width:10%">
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ReportID })
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+
+<div class="pagination" style="margin-left: 400px">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Reports", new { page }))
+</div>

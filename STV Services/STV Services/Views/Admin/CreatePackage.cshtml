@@ -1,0 +1,82 @@
+﻿@model STV_Services.Models.PackageViewModel
+
+@{
+    ViewBag.Title = "Create Package";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.package.ServiceName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.package.ServiceName, new SelectList(Model.services), "Select SSV")
+            @Html.ValidationMessageFor(model => model.package.ServiceName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.package.PackageName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.package.PackageName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.package.PackageName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.package.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.package.Description, 10, 50, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.package.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.package.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.package.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.package.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <b>Channels</b>
+
+        <br>
+        <div class="col-md-10">
+            @for (var i = 0; i < Model.Channels.Count(); i++)
+            {
+
+                <span>
+                    @Html.HiddenFor(model => model.Channels[i].ChannelName)
+                    @Html.CheckBoxFor(model => model.Channels[i].Checked)
+                    @Html.DisplayFor(model => model.Channels[i].ChannelName)
+                </span>
+
+
+                if (i % 5 == 0)
+                {<br>}
+            }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>  
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
