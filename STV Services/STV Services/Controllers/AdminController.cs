@@ -9,7 +9,7 @@ namespace STV_Services.Controllers
         // GET: Admin
         public ActionResult AdminHome()
         {
-            string username = "mazin";
+            string username = Session["Username"].ToString();
             AdminViewModel adminViewModel = new AdminViewModel();
             adminViewModel.admin = DataAccess.GetUserInfo(username);
             adminViewModel.streamingSrevice = DataAccess.GetStreamingSrevices();

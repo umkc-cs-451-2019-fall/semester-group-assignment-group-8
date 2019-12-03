@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Web
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,7 +17,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("STV", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav ">
@@ -25,7 +26,18 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Sign Up", "Register", "Register")</li>
+                    @if (HttpContext.Current.Session["Username"] == null)
+                    {
+                        <li>@Html.ActionLink("Log in", "Login", "Home")</li>
+                        <li>@Html.ActionLink("Sign Up", "Register", "Register")</li>
+
+                    }
+                    else
+                    {
+
+                        <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "Index", "Home")</li>
+                        <li>@Html.ActionLink("Log Out", "Logout", "Home")</li>
+                    }
                 </ul>
             </div>
         </div>

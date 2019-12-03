@@ -346,5 +346,53 @@ namespace STV_Services.Models
                 con.Close();
             }
         }
+
+        public static bool VerifyUser(User user)
+        {
+            bool isExist = false;
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("verfiy_user", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@user_name", user.Username);
+                cmd.Parameters.AddWithValue("@pass", user.Password);
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    isExist = true;
+                    user.Username = rdr["username"].ToString();
+                    user.Permission = Convert.ToChar(rdr["usrPermission"]);
+
+                }
+                con.Close();
+            }
+            return isExist;
+        }
+
+        /*public static User GetUserInfo(User user)
+        {
+            User user_info = new User();
+
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("verfiy_user", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@user_name", user.Username);
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    user_info.Username = rdr["username"].ToString();
+                    user_info.Permission = Convert.ToChar(rdr["usrPermission"]);
+                    
+                }
+                con.Close();
+            }
+
+            return user_info;
+        }*/
+
+
     }
 }
