@@ -92,6 +92,9 @@
                     <b>Date Of Birth:</b>  @Convert.ToDateTime(Model.admin.DateOfBirth).ToString("dd/MM/yyyy")
                     <br>
                     <br>
+                    <button type="button" class="btn" onclick="location.href='@Url.Action("EditProfile","Home")'">Edit Profile</button>
+                    <br>
+                    <br>
                     <button type="button" class="btn" onclick="location.href='@Url.Action("Reports","Report")'">Reports List</button>
                     <br>
                     <br>
@@ -102,6 +105,12 @@
                     <br>
                     <br>
                     <button type="button" class="btn" onclick="location.href='@Url.Action("CreateChannel","Admin")'">Add a Channel</button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn" onclick="location.href='@Url.Action("CreateShow","Admin")'">Add Show</button>
+                    <br>
+                    <br>
+                    <button type="button" class="btn" onclick="location.href='@Url.Action("CreateSeason","Admin")'">Add Episode</button>
                 </td>
             </tr>
         </table>

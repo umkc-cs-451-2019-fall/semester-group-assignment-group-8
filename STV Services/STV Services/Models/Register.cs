@@ -10,7 +10,7 @@ namespace STV_Services.Models
     public class Register
     {
         [StringLength(20)]
-        [Required(ErrorMessage = "usernaem cannot be empty!")]
+        [Required(ErrorMessage = "username cannot be empty!")]
         [RegularExpression(@"[a-zA-Z0-9]+", ErrorMessage = "Invalid username.")]
         public string Username { set; get; }
 

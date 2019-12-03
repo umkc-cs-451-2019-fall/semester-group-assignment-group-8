@@ -3,16 +3,19 @@
 @{
     ViewBag.Title = "Add New Streaming Service";
 }
+<h4>Add New Streaming Service</h4>
 
-
-
+@if (TempData["Danger"] != null)
+{
+        <div class="alert alert-danger"> @TempData["Danger"] </div>
+}
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Streaming Srevice</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

@@ -138,11 +138,15 @@
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\DataAccess.cs" />
+    <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\PackageModel.cs" />
     <Compile Include="Models\PackageViewModel.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Report.cs" />
+    <Compile Include="Models\SeasonViewModel.cs" />
+    <Compile Include="Models\Show.cs" />
+    <Compile Include="Models\ShowViewModel.cs" />
     <Compile Include="Models\StreamingSrevice.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -194,6 +198,9 @@
     <Content Include="Views\Admin\CreatePackage.cshtml" />
     <Content Include="Views\Admin\CreateChannel.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\EditProfile.cshtml" />
+    <Content Include="Views\Admin\CreateShow.cshtml" />
+    <Content Include="Views\Admin\CreateSeason.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -46,7 +46,7 @@ namespace STV_Services.Controllers
                 Session["Permission"] = null;
                 TempData["Error"] = "Username or Password is incorrect.";
                 ModelState.AddModelError("LoginError", "Username or Password is incorrect.");
-                return View();
+                //return View();
             }
             return View();
         } 
@@ -70,6 +70,22 @@ namespace STV_Services.Controllers
             Session["Permission"] = null;
             Session.Clear();
             return RedirectToAction("Index","Home");
+        }
+
+        public ActionResult EditProfile()
+        {
+            string username = Session["Username"].ToString();
+            User user = DataAccess.GetUserInfo(username);
+            return View(user);
+            //return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User user)
+        {
+           DataAccess.UpdateUserInfo(user);
+            //return View(user);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
