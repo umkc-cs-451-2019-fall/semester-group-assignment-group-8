@@ -149,6 +149,8 @@
     <Compile Include="Models\ShowViewModel.cs" />
     <Compile Include="Models\StreamingSrevice.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserFavs.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +206,7 @@
     <Content Include="Views\Home\TVShows.cshtml" />
     <Content Include="Views\Home\StreamingService.cshtml" />
     <Content Include="Views\Home\Packages.cshtml" />
+    <Content Include="Views\Home\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

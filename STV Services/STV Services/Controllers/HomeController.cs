@@ -37,7 +37,7 @@ namespace STV_Services.Controllers
                 }
                 else if (user.Permission == 'u')
                 {
-                    return RedirectToAction("CreateReport", "Report");
+                    return RedirectToAction("UserProfile", "Home");
                 }
             }
             else
@@ -49,7 +49,17 @@ namespace STV_Services.Controllers
                 //return View();
             }
             return View();
-        } 
+        }
+
+        public ActionResult UserProfile()
+        {
+
+            string username = Session["Username"].ToString();
+            UserViewModel userViewModel = new UserViewModel();
+            userViewModel.user = DataAccess.GetUserInfo(username);
+            userViewModel.userfav = DataAccess.GetUserFav(username);
+            return View(userViewModel);
+        }
 
         public ActionResult About()
         {
@@ -98,7 +108,7 @@ namespace STV_Services.Controllers
         public ActionResult StreamingService()
         {
             List<StreamingSrevice> streamingSrevices = new List<StreamingSrevice>();
-            streamingSrevices = DataAccess.GetStreamingSrevices();
+            streamingSrevices = DataAccess.GetUserFav();
             return View(streamingSrevices);
         }
 

@@ -38,7 +38,7 @@ namespace STV_Services.Models
                 return user_info;
         }
 
-        public static List<StreamingSrevice> GetStreamingSrevices()
+        public static List<StreamingSrevice> GetUserFav()
         {
             List<StreamingSrevice> StreamingServices = new List<StreamingSrevice>();
 
@@ -543,6 +543,33 @@ namespace STV_Services.Models
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
+        }
+
+        public static List<Show> GetUserFav(string usernam)
+        {
+            List<Show> shows = new List<Show>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_userFav", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usrnam", usernam);
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Show show = new Show();
+                    show.ShowName = rdr["ShowName"].ToString();
+                    show.ChannelName = rdr["ChannelName"].ToString();
+                    show.Description = rdr["Description"].ToString();
+                    show.DateofRelease = rdr["DateOfRelease"].ToString();
+                    shows.Add(show);
+                }
+                con.Close();
+            }
+            return shows;
         }
     }
 }

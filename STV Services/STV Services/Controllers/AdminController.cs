@@ -18,7 +18,7 @@ namespace STV_Services.Controllers
             string username = Session["Username"].ToString();
             AdminViewModel adminViewModel = new AdminViewModel();
             adminViewModel.admin = DataAccess.GetUserInfo(username);
-            adminViewModel.streamingSrevice = DataAccess.GetStreamingSrevices();
+            adminViewModel.streamingSrevice = DataAccess.GetUserFav();
 
             return View(adminViewModel);
         }
@@ -58,7 +58,7 @@ namespace STV_Services.Controllers
         public ActionResult CreatePackage()
         {
             PackageViewModel packageView = new PackageViewModel();
-            List<StreamingSrevice> streamingSrevices = DataAccess.GetStreamingSrevices();
+            List<StreamingSrevice> streamingSrevices = DataAccess.GetUserFav();
             packageView.services = DataAccess.getStreamingServices();
             packageView.Channels = DataAccess.GetChannels();
  
@@ -76,6 +76,7 @@ namespace STV_Services.Controllers
 
             return RedirectToAction("AdminHome", "Admin");
         }
+
 
         public ActionResult CreateChannel()
         {
