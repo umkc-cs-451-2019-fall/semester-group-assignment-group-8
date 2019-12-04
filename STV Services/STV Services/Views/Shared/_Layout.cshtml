@@ -24,6 +24,16 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false" id="marketplaceDropdown"
+                           asp-controller="Marketplace" asp-action="Explore">Explore</a>
+                        <div class="dropdown-menu" aria-labelledby="marketplaceDropdown">
+                            <a class="dropdown-item" > @Html.ActionLink("TV Shows","TVShows","Home")</a> <br>
+                            <a class="dropdown-item" > @Html.ActionLink("Streaming Service", "StreamingService", "Home")</a><br>
+                            <a class="dropdown-item"> @Html.ActionLink("Packages", "Packages", "Home")</a>
+                        </div>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (HttpContext.Current.Session["Username"] == null)

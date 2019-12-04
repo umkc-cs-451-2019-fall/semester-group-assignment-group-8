@@ -87,5 +87,27 @@ namespace STV_Services.Controllers
             //return View(user);
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult TVShows()
+        {
+            List<Show> shows = new List<Show>();
+            shows = DataAccess.GetShows();
+            return View(shows);
+        }
+
+        public ActionResult StreamingService()
+        {
+            List<StreamingSrevice> streamingSrevices = new List<StreamingSrevice>();
+            streamingSrevices = DataAccess.GetStreamingSrevices();
+            return View(streamingSrevices);
+        }
+
+        public ActionResult Packages()
+        {
+            List<PackageModel> packages = new List<PackageModel>();
+            packages = DataAccess.GetPackages();
+            return View(packages);
+        }
+
     }
 }

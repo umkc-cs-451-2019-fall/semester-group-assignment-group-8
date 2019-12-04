@@ -1,0 +1,33 @@
+﻿@model IEnumerable<STV_Services.Models.StreamingSrevice>
+
+@{
+    ViewBag.Title = "StreamingService";
+}
+
+<h2>Streaming Service</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+
+    </tr>
+}
+
+</table>

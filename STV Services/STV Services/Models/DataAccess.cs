@@ -336,6 +336,33 @@ namespace STV_Services.Models
             return PackageID;
         }
 
+        public static List<PackageModel> GetPackages()
+        {
+            List<PackageModel> packages = new List<PackageModel>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_package", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    PackageModel package = new PackageModel();
+                    package.PackageID = Convert.ToInt32(rdr["PackageID"]);
+                    package.ServiceName = rdr["ServiceName"].ToString();
+                    package.PackageName = rdr["PackName"].ToString();
+                    package.Description = rdr["Description"].ToString();
+                    package.Price = Convert.ToInt32(rdr["Price"]);
+                    packages.Add(package);
+                }
+                con.Close();
+            }
+            return packages;
+        }
+
         public static bool IsChannelExist(string channel_name)
         {
 
@@ -451,6 +478,32 @@ namespace STV_Services.Models
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
+        }
+
+        public static List<Show> GetShows()
+        {
+            List<Show> shows = new List<Show>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_shows", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Show show = new Show();
+                    show.ShowName = rdr["ShowName"].ToString();
+                    show.ChannelName = rdr["ChannelName"].ToString();
+                    show.Description = rdr["Description"].ToString();
+                    show.DateofRelease = rdr["DateOfRelease"].ToString();
+                    shows.Add(show);
+                }
+                con.Close();
+            }
+            return shows;
         }
 
         public static List<string> GetShowsList()
