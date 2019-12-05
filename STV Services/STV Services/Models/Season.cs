@@ -23,7 +23,7 @@ namespace STV_Services.Models
         [DisplayName("Description"), Required(ErrorMessage = "Description cannot be empty!")]
         public string Description { get; set; }
 
-        [DisplayName("Number Of Episode"), Required(ErrorMessage = "This field cannot be empty!")]
+        [DisplayName("Number Of Episodes"), Required(ErrorMessage = "This field cannot be empty!")]
         public int EpisodesNumber { get; set; }
     }
 }

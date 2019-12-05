@@ -29,13 +29,23 @@
                            aria-haspopup="true" aria-expanded="false" id="marketplaceDropdown"
                            asp-controller="Marketplace" asp-action="Explore">Explore</a>
                         <div class="dropdown-menu" aria-labelledby="marketplaceDropdown">
-                            <a class="dropdown-item"> @Html.ActionLink("TV Shows", "TVShows", "Home")</a> <br>
+                            @if (HttpContext.Current.Session["Username"] == null)
+                            {
+                                <a class="dropdown-item"> @Html.ActionLink("TV Shows", "TVShows", "Home")</a> <br>
+
+                            }else
+                            {
+                            <a class="dropdown-item"> @Html.ActionLink("TV Shows", "Shows", "Shows")</a> <br>
+
+                            }
+
+
                             <a class="dropdown-item"> @Html.ActionLink("Streaming Services", "StreamingService", "Home")</a><br>
                             <a class="dropdown-item"> @Html.ActionLink("Packages", "Packages", "Home")</a> <br>
                             <a class="dropdown-item"> @Html.ActionLink("Submit a Report", "CreateReport", "Report")</a>
 
 
-                            
+
                         </div>
                     </li>
                 </ul>
@@ -48,11 +58,19 @@
                     }
                     else
                     {
+                        if (Convert.ToChar(HttpContext.Current.Session["Permission"]) == 'a')
+                        {
+                            <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "AdminHome", "Admin")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "UserProfile", "Home")</li>
+                        }
 
-                        <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "Index", "Home")</li>
+
                         <li>@Html.ActionLink("Log Out", "Logout", "Home")</li>
-                    }
-                </ul>
+                        }
+                    </ul>
             </div>
         </div>
     </div>

@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -146,6 +147,7 @@
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\SeasonViewModel.cs" />
     <Compile Include="Models\Show.cs" />
+    <Compile Include="Models\Shows.cs" />
     <Compile Include="Models\ShowViewModel.cs" />
     <Compile Include="Models\StreamingSrevice.cs" />
     <Compile Include="Models\User.cs" />
@@ -207,9 +209,12 @@
     <Content Include="Views\Home\StreamingService.cshtml" />
     <Content Include="Views\Home\Packages.cshtml" />
     <Content Include="Views\Home\UserProfile.cshtml" />
+    <Content Include="Views\Shows\Shows.cshtml" />
+    <Content Include="Views\Shows\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Details\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

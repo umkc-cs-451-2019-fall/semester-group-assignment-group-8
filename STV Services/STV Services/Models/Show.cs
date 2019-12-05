@@ -24,6 +24,6 @@ namespace STV_Services.Models
 
         [DisplayName("Date of Release"), Required(ErrorMessage = "This field cannot be empty!")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-        public string DateofRelease { set; get; }
+        public DateTime DateofRelease { set; get; }
     }
 }

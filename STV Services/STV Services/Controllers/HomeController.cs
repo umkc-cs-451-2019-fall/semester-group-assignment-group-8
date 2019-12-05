@@ -74,6 +74,7 @@ namespace STV_Services.Controllers
 
             return View();
         }
+
         public ActionResult Logout()
         {
             Session["Username"] = null;

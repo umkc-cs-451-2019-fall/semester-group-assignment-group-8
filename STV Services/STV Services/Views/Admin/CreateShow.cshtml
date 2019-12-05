@@ -1,10 +1,10 @@
 ﻿@model STV_Services.Models.ShowViewModel
 
 @{
-    ViewBag.Title = "Create Show";
+    ViewBag.Title = "Add Show";
 }
 
-<h2>Create Show</h2>
+<h4>Add Show</h4>
 
 
 @using (Html.BeginForm())
@@ -12,6 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+
 
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

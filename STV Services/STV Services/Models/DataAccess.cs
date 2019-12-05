@@ -498,7 +498,7 @@ namespace STV_Services.Models
                     show.ShowName = rdr["ShowName"].ToString();
                     show.ChannelName = rdr["ChannelName"].ToString();
                     show.Description = rdr["Description"].ToString();
-                    show.DateofRelease = rdr["DateOfRelease"].ToString();
+                    show.DateofRelease = rdr.GetDateTime(3);
                     shows.Add(show);
                 }
                 con.Close();
@@ -564,7 +564,7 @@ namespace STV_Services.Models
                     show.ShowName = rdr["ShowName"].ToString();
                     show.ChannelName = rdr["ChannelName"].ToString();
                     show.Description = rdr["Description"].ToString();
-                    show.DateofRelease = rdr["DateOfRelease"].ToString();
+                    show.DateofRelease = rdr.GetDateTime(3);
                     shows.Add(show);
                 }
                 con.Close();
