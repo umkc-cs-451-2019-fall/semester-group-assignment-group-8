@@ -1,0 +1,64 @@
+﻿@model STV_Services.Models.Shows
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShowName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShowName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChannelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChannelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfRelease)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfRelease)
+        </dd>
+    </dl>
+    @foreach (var item in Model.show_service)
+    {
+        <table>
+            <tr>
+                <th>
+                    <span>@Html.DisplayFor(modelItem => item.ServiceName): </span>
+                </th>
+
+                <td>
+                    <span>Seasons: @Html.DisplayFor(modelItem => item.Seasons)</span>
+                    Episodes: @Html.DisplayFor(modelItem => item.Episodes)
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+
+
+<p>
+    @Html.ActionLink("Back to List", "Shows")
+</p>

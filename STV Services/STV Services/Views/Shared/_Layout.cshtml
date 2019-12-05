@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - My STV Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -24,6 +24,30 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false" id="marketplaceDropdown"
+                           asp-controller="Marketplace" asp-action="Explore">Explore</a>
+                        <div class="dropdown-menu" aria-labelledby="marketplaceDropdown">
+                            @if (HttpContext.Current.Session["Username"] == null)
+                            {
+                                <a class="dropdown-item"> @Html.ActionLink("TV Shows", "TVShows", "Home")</a> <br>
+
+                            }else
+                            {
+                            <a class="dropdown-item"> @Html.ActionLink("TV Shows", "Shows", "Shows")</a> <br>
+
+                            }
+
+
+                            <a class="dropdown-item"> @Html.ActionLink("Streaming Services", "StreamingService", "Home")</a><br>
+                            <a class="dropdown-item"> @Html.ActionLink("Packages", "Packages", "Home")</a> <br>
+                            <a class="dropdown-item"> @Html.ActionLink("Submit a Report", "CreateReport", "Report")</a>
+
+
+
+                        </div>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (HttpContext.Current.Session["Username"] == null)
@@ -34,11 +58,19 @@
                     }
                     else
                     {
+                        if (Convert.ToChar(HttpContext.Current.Session["Permission"]) == 'a')
+                        {
+                            <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "AdminHome", "Admin")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "UserProfile", "Home")</li>
+                        }
 
-                        <li>@Html.ActionLink(@HttpContext.Current.Session["Username"].ToString(), "Index", "Home")</li>
+
                         <li>@Html.ActionLink("Log Out", "Logout", "Home")</li>
-                    }
-                </ul>
+                        }
+                    </ul>
             </div>
         </div>
     </div>
@@ -46,7 +78,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - My STV Application</p>
         </footer>
     </div>
 

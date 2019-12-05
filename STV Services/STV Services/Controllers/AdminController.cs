@@ -6,13 +6,19 @@ namespace STV_Services.Controllers
 {
     public class AdminController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+                
+        }
+
         // GET: Admin
         public ActionResult AdminHome()
         {
             string username = Session["Username"].ToString();
             AdminViewModel adminViewModel = new AdminViewModel();
             adminViewModel.admin = DataAccess.GetUserInfo(username);
-            adminViewModel.streamingSrevice = DataAccess.GetStreamingSrevices();
+            adminViewModel.streamingSrevice = DataAccess.GetUserFav();
 
             return View(adminViewModel);
         }
@@ -29,26 +35,31 @@ namespace STV_Services.Controllers
         {
             TempData["Danger"] = null;
             StreamingSrevice newStreamingSrevice = new StreamingSrevice();
-            if (DataAccess.IsStreamExist(stream.ServiceName) == false)
+            if (ModelState.IsValid) { 
+            if (DataAccess.IsStreamExist(stream.ServiceName) == true)
             {
-                DataAccess.CreateStreamingService(stream);
+                    TempData["Danger"] = "Streaming Service is already existed!";
+                    ModelState.AddModelError("ChannelName", "This channel is already exists.");
 
             }
             else
             {
-                TempData["Danger"] = "Streaming Service is already existed!";
+                DataAccess.CreateStreamingService(stream);
+                return RedirectToAction("AdminHome", "Admin");
 
             }
-            return RedirectToAction("AdminHome","Admin");
+            }
+            return View(stream);
+
+            //return RedirectToAction("AdminHome","Admin");
         }
 
 
         public ActionResult CreatePackage()
         {
             PackageViewModel packageView = new PackageViewModel();
-            List<StreamingSrevice> streamingSrevices = DataAccess.GetStreamingSrevices();
+            List<StreamingSrevice> streamingSrevices = DataAccess.GetUserFav();
             packageView.services = DataAccess.getStreamingServices();
-            //st<Channel> channels = DataAccess.GetChannels();
             packageView.Channels = DataAccess.GetChannels();
  
             return View(packageView);
@@ -65,6 +76,7 @@ namespace STV_Services.Controllers
 
             return RedirectToAction("AdminHome", "Admin");
         }
+
 
         public ActionResult CreateChannel()
         {
@@ -89,6 +101,37 @@ namespace STV_Services.Controllers
 
             return View(channel);
 
+        }
+
+
+        public ActionResult CreateShow()
+        {
+            ShowViewModel showView = new ShowViewModel();
+            showView.Channels = DataAccess.GetChannelsName();
+            return View(showView);
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateShow(ShowViewModel showView)
+        {
+            DataAccess.CreateShow(showView);
+
+            return RedirectToAction("AdminHome", "Admin");
+        }
+
+        public ActionResult CreateSeason()
+        {
+            SeasonViewModel seasonViewModel = new SeasonViewModel();
+            seasonViewModel.Shows = DataAccess.GetShowsList();
+            return View(seasonViewModel);
+        }
+        [HttpPost]
+        public ActionResult CreateSeason(SeasonViewModel seasonView)
+        {
+            DataAccess.CreateSeason(seasonView);
+
+            return RedirectToAction("AdminHome", "Admin");
         }
 
     }

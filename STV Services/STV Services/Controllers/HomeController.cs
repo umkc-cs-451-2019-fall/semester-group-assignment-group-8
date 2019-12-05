@@ -37,7 +37,7 @@ namespace STV_Services.Controllers
                 }
                 else if (user.Permission == 'u')
                 {
-                    return RedirectToAction("CreateReport", "Report");
+                    return RedirectToAction("UserProfile", "Home");
                 }
             }
             else
@@ -46,10 +46,20 @@ namespace STV_Services.Controllers
                 Session["Permission"] = null;
                 TempData["Error"] = "Username or Password is incorrect.";
                 ModelState.AddModelError("LoginError", "Username or Password is incorrect.");
-                return View();
+                //return View();
             }
             return View();
-        } 
+        }
+
+        public ActionResult UserProfile()
+        {
+
+            string username = Session["Username"].ToString();
+            UserViewModel userViewModel = new UserViewModel();
+            userViewModel.user = DataAccess.GetUserInfo(username);
+            userViewModel.userfav = DataAccess.GetUserFav(username);
+            return View(userViewModel);
+        }
 
         public ActionResult About()
         {
@@ -64,6 +74,7 @@ namespace STV_Services.Controllers
 
             return View();
         }
+
         public ActionResult Logout()
         {
             Session["Username"] = null;
@@ -71,5 +82,43 @@ namespace STV_Services.Controllers
             Session.Clear();
             return RedirectToAction("Index","Home");
         }
+
+        public ActionResult EditProfile()
+        {
+            string username = Session["Username"].ToString();
+            User user = DataAccess.GetUserInfo(username);
+            return View(user);
+            //return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User user)
+        {
+           DataAccess.UpdateUserInfo(user);
+            //return View(user);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult TVShows()
+        {
+            List<Show> shows = new List<Show>();
+            shows = DataAccess.GetShows();
+            return View(shows);
+        }
+
+        public ActionResult StreamingService()
+        {
+            List<StreamingSrevice> streamingSrevices = new List<StreamingSrevice>();
+            streamingSrevices = DataAccess.GetUserFav();
+            return View(streamingSrevices);
+        }
+
+        public ActionResult Packages()
+        {
+            List<PackageModel> packages = new List<PackageModel>();
+            packages = DataAccess.GetPackages();
+            return View(packages);
+        }
+
     }
 }

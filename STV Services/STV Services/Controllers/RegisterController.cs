@@ -31,7 +31,7 @@ namespace STV_Services.Controllers
             }
             else
             {
-                ModelState.AddModelError("Username", "this username is already exists. Please enter a different username.");
+                ModelState.AddModelError("Username", "Username already exists. Please enter a different username.");
 
             }
 

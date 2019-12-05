@@ -38,7 +38,7 @@ namespace STV_Services.Models
                 return user_info;
         }
 
-        public static List<StreamingSrevice> GetStreamingSrevices()
+        public static List<StreamingSrevice> GetUserFav()
         {
             List<StreamingSrevice> StreamingServices = new List<StreamingSrevice>();
 
@@ -273,6 +273,31 @@ namespace STV_Services.Models
             return channels;
         }
 
+        public static List<string> GetChannelsName()
+        {
+            List<string> channels = new List<string>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_channels", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Channel channel = new Channel();
+                    channel.ChannelName = rdr["ChannelName"].ToString();
+                    channel.Description = rdr["Description"].ToString();
+                    channel.Checked = false;
+                    channels.Add(channel.ChannelName);
+                }
+                con.Close();
+            }
+            return channels;
+        }
+
         public static void AddChannelToPackage(int packageID, string channel)
         {
             using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
@@ -309,6 +334,33 @@ namespace STV_Services.Models
                 con.Close();
             }
             return PackageID;
+        }
+
+        public static List<PackageModel> GetPackages()
+        {
+            List<PackageModel> packages = new List<PackageModel>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_package", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    PackageModel package = new PackageModel();
+                    package.PackageID = Convert.ToInt32(rdr["PackageID"]);
+                    package.ServiceName = rdr["ServiceName"].ToString();
+                    package.PackageName = rdr["PackName"].ToString();
+                    package.Description = rdr["Description"].ToString();
+                    package.Price = Convert.ToInt32(rdr["Price"]);
+                    packages.Add(package);
+                }
+                con.Close();
+            }
+            return packages;
         }
 
         public static bool IsChannelExist(string channel_name)
@@ -393,6 +445,131 @@ namespace STV_Services.Models
             return user_info;
         }*/
 
+        public static void UpdateUserInfo(User user)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("update_userInfo", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usrname", user.Username);
+                cmd.Parameters.AddWithValue("@firstname", user.Firstname);
+                cmd.Parameters.AddWithValue("@lastname", user.Lastname);
+                cmd.Parameters.AddWithValue("@email", user.Email);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@dob", user.DateOfBirth);
 
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static void CreateShow(ShowViewModel showViewModel)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_show", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", showViewModel.show.ShowName);
+                cmd.Parameters.AddWithValue("@chnl", showViewModel.show.ChannelName);
+                cmd.Parameters.AddWithValue("@descr", showViewModel.show.Description);
+                cmd.Parameters.AddWithValue("@DOR", showViewModel.show.DateofRelease);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static List<Show> GetShows()
+        {
+            List<Show> shows = new List<Show>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_shows", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Show show = new Show();
+                    show.ShowName = rdr["ShowName"].ToString();
+                    show.ChannelName = rdr["ChannelName"].ToString();
+                    show.Description = rdr["Description"].ToString();
+                    show.DateofRelease = rdr.GetDateTime(3);
+                    shows.Add(show);
+                }
+                con.Close();
+            }
+            return shows;
+        }
+
+        public static List<string> GetShowsList()
+        {
+            List<string> shows = new List<string>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_shows", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Show show = new Show();
+                    show.ChannelName = rdr["ShowName"].ToString();
+                    shows.Add(show.ChannelName);
+                }
+                con.Close();
+            }
+            return shows;
+        }
+
+        public static void CreateSeason(SeasonViewModel seasonViewModel)
+        {
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+                MySqlCommand cmd = new MySqlCommand("create_season", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@showname", seasonViewModel.season.ShowName);
+                cmd.Parameters.AddWithValue("@epsd", seasonViewModel.season.EpisodesNumber);
+                cmd.Parameters.AddWithValue("@SesnTitle", seasonViewModel.season.SeasonTitle);
+                cmd.Parameters.AddWithValue("@descrp", seasonViewModel.season.Description);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public static List<Show> GetUserFav(string usernam)
+        {
+            List<Show> shows = new List<Show>();
+            using (MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["constr"].ConnectionString))
+            {
+
+                MySqlCommand cmd = new MySqlCommand("get_userFav", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@usrnam", usernam);
+
+
+                con.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Show show = new Show();
+                    show.ShowName = rdr["ShowName"].ToString();
+                    show.ChannelName = rdr["ChannelName"].ToString();
+                    show.Description = rdr["Description"].ToString();
+                    show.DateofRelease = rdr.GetDateTime(3);
+                    shows.Add(show);
+                }
+                con.Close();
+            }
+            return shows;
+        }
     }
 }
